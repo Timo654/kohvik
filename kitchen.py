@@ -25,7 +25,8 @@ class Kitchen:
     def get_orders(self):
         response = requests.get(f"{self.server_ip}/getOrders")
         data = response.json()
-        return [item[0] for item in data]
+        print(data)
+        return [item["ID"] for item in data]
 
     def update_order_names(self, order_index=None, init=False):
         new_names = list()
@@ -33,7 +34,7 @@ class Kitchen:
             items = self.get_ordered_items(order)
             text = f"NR {order}: "
             for item in items:
-                text += f'{item[1]} {item[0]} '
+                text += f'{item["Count"]} {item["Name"]} '
             new_names.append(text.strip())
         self.order_names = new_names
         if not init:
@@ -63,6 +64,7 @@ class Kitchen:
     def get_ordered_items(self, order_id):
         url = f"{self.server_ip}/getOrderedItems/{order_id}"
         response = requests.get(url)
+        print(response.json())
         return response.json()
 
     def set_order_status(self, order_id, status_code):

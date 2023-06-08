@@ -32,11 +32,14 @@ class Cafe:
                 data = response.json()
                 items = dict()
                 for item in data:
-                    items[item[1]] = dict()
-                    items[item[1]]["ID"] = item[0]
-                    items[item[1]]["Price"] = item[2]
-                    items[item[1]]["Count"] = 0
-            return items
+                    items[item["Name"]] = dict()
+                    items[item["Name"]]["ID"] = item["ID"]
+                    items[item["Name"]]["Price"] = item["Price"]
+                    items[item["Name"]]["Count"] = 0
+                return items
+            else:
+                self.show_message_box(
+                f"Error code {response.status_code}. Make sure the server is not broken.", "ERROR", "OK")
         except(requests.exceptions.ConnectionError):
             self.show_message_box(
                 "Failed to connect to the server!\nTry restarting the program and/or verifying your network connectivity.", "ERROR", "OK")
@@ -57,9 +60,9 @@ class Cafe:
             response = requests.request(
                 "POST", f"{self.server_ip}/addOrder", headers=headers, data=order)
             if response.status_code == 200:
-                self.reset_counts()
                 order_id = response.text.strip()
-                self.prev_order_label.set_text(str(order_id))
+                self.prev_order_label.set_text(f'Previous order {order_id}: {self.price_label.text}')
+                self.reset_counts()
                 return f'Order {order_id} was successfully placed!'
             elif response.status_code == 400:
                 self.reset_counts()
@@ -127,8 +130,8 @@ class Cafe:
         # same as before, but for showing previous order ID
         self.prev_order_label = pygame_gui.elements.UIButton(
             relative_rect=pygame.Rect((self.margin_x,
-                                       self.resolution[1] - self.margin_y - 50), (self.button_width - 80, 50)),
-            text="None",
+                                       self.resolution[1] - self.margin_y - 50), (-1, 50)),
+            text="No orders yet",
             manager=self.manager
         )
         self.prev_order_label.disable()
