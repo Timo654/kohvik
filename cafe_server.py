@@ -1,16 +1,22 @@
-from flask import Flask, jsonify, request
-from flask_cors import cross_origin
+from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 import sqlite3
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="./webgl_app/static",
+            template_folder="./webgl_app/templates")
+CORS(app)
 db_file = "db/cafe_v2.db"
 prod = False  # if production or development
 # GET REQUESTS
 
 
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+
 @app.route('/getOrders', methods=['GET'])
-@cross_origin()
 def get_orders():
     c = sqlite3.connect(db_file).cursor()
     c.execute("select 'order'.order_id from 'order' where 'order'.status == 0")
@@ -22,8 +28,8 @@ def get_orders():
         new_data.append(x)
     return new_data
 
+
 @app.route('/getReadyOrders', methods=['GET'])
-@cross_origin()
 def get_ready_orders():
     c = sqlite3.connect(db_file).cursor()
     c.execute("select 'order'.order_id from 'order' where 'order'.status == 1")
@@ -37,7 +43,6 @@ def get_ready_orders():
 
 
 @app.route('/totalSales', methods=['GET'])
-@cross_origin()
 def get_total_sales():
     c = sqlite3.connect(db_file).cursor()
     c.execute("""select sum(item.price * order_item.quantity) as order_price from item
@@ -46,8 +51,8 @@ inner join 'order' on 'order'.order_id=order_item.order_id where 'order'.status=
     data = c.fetchone()
     return jsonify(data)
 
+
 @app.route('/getItems', methods=['GET'])
-@cross_origin()
 def get_items():
     c = sqlite3.connect(db_file).cursor()
     c.execute(
@@ -62,8 +67,8 @@ def get_items():
         new_data.append(x)
     return new_data
 
+
 @app.route('/getPrice/<order_id>', methods=['GET'])
-@cross_origin()
 def get_order_price(order_id):
     order_id = int(order_id)
     c = sqlite3.connect(db_file).cursor()
@@ -76,7 +81,6 @@ where 'order'.order_id=?""", (order_id,))
 
 
 @app.route('/getOrderedItems/<order_id>', methods=['GET'])
-@cross_origin()
 def get_order_items(order_id):
     order_id = int(order_id)
     c = sqlite3.connect(db_file).cursor()
@@ -100,7 +104,6 @@ where 'order'.order_id=?""", (order_id,))
 
 
 @app.route('/updateOrder/<order_id>', methods=['PUT', 'POST'])
-@cross_origin()
 def update_order_status(order_id):
     order_id = int(order_id)
     db = sqlite3.connect(db_file)
@@ -118,7 +121,6 @@ def update_order_status(order_id):
 
 
 @app.route('/addOrder', methods=['POST'])
-@cross_origin()
 def add_order():
     db = sqlite3.connect(db_file)
     c = db.cursor()
@@ -143,6 +145,6 @@ def add_order():
 if __name__ == '__main__':
     if prod:
         from waitress import serve
-        serve(app, host="0.0.0.0", port=80)
+        serve(app, host="0.0.0.0", port=5000)
     else:
         app.run(debug=True, port=5000, host='0.0.0.0')
