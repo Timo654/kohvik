@@ -8,11 +8,11 @@ import shutil
 app = Flask(__name__, static_folder="./webgl_app/static",
             template_folder="./webgl_app/templates")
 CORS(app)
-db_file = "db/cafe.db"
-if not Path(db_file).exists():
-    if Path("db/empty_db.db").exists():
-        shutil.copy(Path("db/empty_db.db"), Path(db_file))
-        
+db_file = Path("db" / "cafe.db")
+empty_db = Path("db" / "empty_db.db")
+if not db_file.exists():
+    if empty_db.exists():
+        shutil.copy(empty_db, db_file)
 prod = False  # if production or development
 # GET REQUESTS
 
