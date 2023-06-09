@@ -2,11 +2,17 @@ from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 import sqlite3
 import json
+from pathlib import Path
+import shutil
 
 app = Flask(__name__, static_folder="./webgl_app/static",
             template_folder="./webgl_app/templates")
 CORS(app)
-db_file = "db/cafe_v2.db"
+db_file = "db/cafe.db"
+if not Path(db_file).exists():
+    if Path("db/empty_db.db").exists():
+        shutil.copy(Path("db/empty_db.db"), Path(db_file))
+        
 prod = False  # if production or development
 # GET REQUESTS
 
