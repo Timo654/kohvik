@@ -13,6 +13,7 @@ empty_db = Path("./db") / "empty_db.db"
 if not db_file.exists():
     if empty_db.exists():
         shutil.copy(empty_db, db_file)
+db_file = Path.absolute(db_file)
 prod = False  # if production or development
 # GET REQUESTS
 
