@@ -14,7 +14,7 @@ empty_db = script_dir / "./db" / "empty_db.db"
 if not db_file.exists():
     if empty_db.exists():
         shutil.copy(empty_db, db_file)
-        
+
 prod = False  # if production or development
 # GET REQUESTS
 
@@ -75,6 +75,20 @@ def get_items():
         new_data.append(x)
     return new_data
 
+@app.route('/getMenuItems', methods=['GET'])
+def get_menu_items():
+    c = sqlite3.connect(db_file).cursor()
+    c.execute(
+        "select item.item_id as id, item.name as item, item.price as item_price from item where item.is_ingredient=0")
+    data = c.fetchall()
+    new_data = list()
+    for item in data:
+        x = dict()
+        x["ID"] = item[0]
+        x["Name"] = item[1]
+        x["Price"] = item[2]
+        new_data.append(x)
+    return new_data
 
 @app.route('/getPrice/<order_id>', methods=['GET'])
 def get_order_price(order_id):
