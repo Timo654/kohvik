@@ -60,6 +60,15 @@ inner join 'order' on 'order'.order_id=order_item.order_id where 'order'.status=
     return jsonify(data)
 
 
+@app.route('/ohthemisery', methods=['GET'])
+def ohtemm9isery():
+    db = sqlite3.connect(db_file)
+    c = db.cursor()
+    c.execute("INSERT INTO item(name, price, is_ingredient) VALUES (?, ?, ?)", ("Kanapasta", 500, 0))
+    order_id = c.lastrowid
+    db.commit()
+    return jsonify(order_id)
+
 @app.route('/getItems', methods=['GET'])
 def get_items():
     c = sqlite3.connect(db_file).cursor()
