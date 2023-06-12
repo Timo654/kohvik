@@ -59,16 +59,6 @@ inner join 'order' on 'order'.order_id=order_item.order_id where 'order'.status=
     data = c.fetchone()
     return jsonify(data)
 
-
-@app.route('/ohthemisery', methods=['GET'])
-def ohtemm9isery():
-    db = sqlite3.connect(db_file)
-    c = db.cursor()
-    c.execute("INSERT INTO item(name, price, is_ingredient) VALUES (?, ?, ?)", ("Kanapasta", 500, 0))
-    order_id = c.lastrowid
-    db.commit()
-    return jsonify(order_id)
-
 @app.route('/getItems', methods=['GET'])
 def get_items():
     c = sqlite3.connect(db_file).cursor()
@@ -130,9 +120,6 @@ where 'order'.order_id=?""", (order_id,))
     return new_data
 
 # PUT/POST REQUESTS
-# TODO - ignore out of bounds values and figure out what values we actually need, could add a status for "deleted"?
-# TODO - add status for ready-to-hand-out
-
 
 @app.route('/updateOrder/<order_id>', methods=['PUT', 'POST'])
 def update_order_status(order_id):
