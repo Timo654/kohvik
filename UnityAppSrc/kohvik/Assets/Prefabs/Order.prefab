@@ -33,7 +33,6 @@ RectTransform:
   m_Children:
   - {fileID: 813705993950554005}
   m_Father: {fileID: 2009165667065386119}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -159,7 +158,6 @@ RectTransform:
   m_Children:
   - {fileID: 8156734150407229209}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -247,7 +245,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8156734150407229209}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -284,8 +281,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'NR 2: 2 Banana 2 Potato 2 Water 2 Coffee 2 Cookie 2 Watermelon'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cea9514e32e14ff42b7fa3da64159d94, type: 2}
-  m_sharedMaterial: {fileID: -7309474362120989460, guid: cea9514e32e14ff42b7fa3da64159d94, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -309,7 +306,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.95
+  m_fontSize: 44.1
   m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 1
