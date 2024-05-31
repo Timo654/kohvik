@@ -26,26 +26,30 @@ def home():
 
 @app.route('/getOrders', methods=['GET'])
 def get_orders():
+    # TODO - add getting discount value, or a bool to signify its discounted
     c = sqlite3.connect(db_file).cursor()
-    c.execute("select 'order'.order_id from 'order' where 'order'.status == 0")
+    c.execute("select 'order'.order_id, 'order'.discount_percent from 'order' where 'order'.status == 0")
     data = c.fetchall()
     new_data = list()
     for item in data:
         x = dict()
         x["ID"] = item[0]
+        x["DISCOUNT"] = item[1]
         new_data.append(x)
     return new_data
 
 
 @app.route('/getReadyOrders', methods=['GET'])
 def get_ready_orders():
+    # TODO - add discount variable
     c = sqlite3.connect(db_file).cursor()
-    c.execute("select 'order'.order_id from 'order' where 'order'.status == 1")
+    c.execute("select 'order'.order_id, 'order'.discount_percent from 'order' where 'order'.status == 1")
     data = c.fetchall()
     new_data = list()
     for item in data:
         x = dict()
         x["ID"] = item[0]
+        x["DISCOUNT"] = item[1]
         new_data.append(x)
     return new_data
 

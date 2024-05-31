@@ -3,12 +3,16 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] TMP_Text priceText;
     [SerializeField] TMP_Text prevOrderText;
+    [SerializeField] private Image priceBG;
     [SerializeField] bool isMenu;
+    [SerializeField] private Color discountedColor = Color.white;
+    [SerializeField] private Color defaultColor = Color.white;
     public GameObject itemPrefab;
     public GameObject confirmBox;
     public GameObject messageBox;
@@ -21,6 +25,8 @@ public class ItemManager : MonoBehaviour
     private int itemCount;
     private int discountPercentage = 0;
     private string itemEndpoint = "getItems";
+    private bool broughtOwnUtensils = false;
+    private readonly static int utensilsDiscount = 10;
     public static ItemManager Instance { get; private set; }
 
     // Start is called before the first frame update
@@ -74,7 +80,16 @@ public class ItemManager : MonoBehaviour
     {
         price = 0;
         discountPercentage = 0;
+        broughtOwnUtensils = false; // TODO - reset visual style too
         UpdatePriceText();
+    }
+
+    public void OnUtensilsToggled()
+    {
+        broughtOwnUtensils = !broughtOwnUtensils;
+        SetDiscount(broughtOwnUtensils ? utensilsDiscount : 0);
+        Debug.Log(broughtOwnUtensils);
+        // TODO - change visual style
     }
 
     private float CalculatePrice()
@@ -82,6 +97,7 @@ public class ItemManager : MonoBehaviour
         return price / 100.0f * (100 - discountPercentage) / 100.0f;
     }
     void UpdatePriceText() {
+        priceBG.color = discountPercentage > 0 ? discountedColor : defaultColor;
         priceText.text = string.Format("{0:0.00}€", CalculatePrice());
     }
     public void RemoveItemFromCart(Item item)
