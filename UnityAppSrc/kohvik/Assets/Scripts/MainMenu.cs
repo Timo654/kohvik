@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -25,7 +26,7 @@ public class MainMenu : MonoBehaviour
         {
             string jsonResponse = www.downloadHandler.text.Trim();
             if (!jsonResponse.Contains("null")) {
-                float number = float.Parse(jsonResponse[1..^1]);
+                float number = float.Parse(jsonResponse, CultureInfo.InvariantCulture);
                 salesText.SetText(string.Format("{0:0.00}€", number / 100));
             }
             

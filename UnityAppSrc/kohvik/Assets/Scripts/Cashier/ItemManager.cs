@@ -19,6 +19,7 @@ public class ItemManager : MonoBehaviour
     private float price;
     private bool isMidOrder = false;
     private int itemCount;
+    private int discountPercentage = 0;
     private string itemEndpoint = "getItems";
     public static ItemManager Instance { get; private set; }
 
@@ -58,14 +59,30 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void SetDiscount(int discount)
+    {
+        // TODO - expose discount to the UI
+        if ((discount < 0) || (discount > 100))
+        {
+            Debug.Log("Invalid discount value!!!");
+            return;
+        }
+        discountPercentage = discount;
+        UpdatePriceText();
+    }
     void ResetPrice()
     {
         price = 0;
+        discountPercentage = 0;
         UpdatePriceText();
     }
 
+    private float CalculatePrice()
+    {
+        return price / 100.0f * (100 - discountPercentage) / 100.0f;
+    }
     void UpdatePriceText() {
-        priceText.text = string.Format("{0:0.00}€", price / 100);
+        priceText.text = string.Format("{0:0.00}€", CalculatePrice());
     }
     public void RemoveItemFromCart(Item item)
     {
@@ -95,7 +112,7 @@ public class ItemManager : MonoBehaviour
         if (itemCount > 0)
         {
             isMidOrder = true;
-            messageBoxText.SetText($"Olete kindel, et soovite edastada tellimuse maksumusega {string.Format("{0:0.00}€?", price / 100)}");
+            messageBoxText.SetText($"Olete kindel, et soovite edastada tellimuse maksumusega {string.Format("{0:0.00}€?", CalculatePrice())}");
             messageBox.SetActive(true);
         }
     }
@@ -106,6 +123,8 @@ public class ItemManager : MonoBehaviour
             // Create a string to store the order data
             WWWForm form = new();
             // Loop through the items and append their ID and count to the order data
+
+            form.AddField("discount", discountPercentage);
             foreach (var item in items.Items)
             {
                 if (item.Count > 0)
@@ -153,8 +172,9 @@ public class ItemManager : MonoBehaviour
         else
         {
             string id = System.Text.Encoding.Default.GetString(www.downloadHandler.data);
-            SetPrevOrderText($"Eelmine tellimus {id.Trim()}: {string.Format("{0:0.00}€", price / 100)}");
-            confirmBoxText.SetText($"Tellimus {id.Trim()} edastatud, hind {string.Format("{0:0.00}€", price / 100)}");
+            float currentPrice = CalculatePrice();
+            SetPrevOrderText($"Eelmine tellimus {id.Trim()}: {string.Format("{0:0.00}€", currentPrice)}");
+            confirmBoxText.SetText($"Tellimus {id.Trim()} edastatud, hind {string.Format("{0:0.00}€", currentPrice)}");
         }
         confirmBox.SetActive(true);
         www.Dispose();

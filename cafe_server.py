@@ -53,10 +53,10 @@ def get_ready_orders():
 @app.route('/totalSales', methods=['GET'])
 def get_total_sales():
     c = sqlite3.connect(db_file).cursor()
-    c.execute("""select sum(item.price * order_item.quantity) as order_price from item
+    c.execute("""select sum(item.price * order_item.quantity * ((100 - 'order'.discount_percent) / 100.0)) as order_price from item
 inner join order_item on item.item_id=order_item.item_id
 inner join 'order' on 'order'.order_id=order_item.order_id where 'order'.status=2""")
-    data = c.fetchone()
+    data = c.fetchone()[0]
     return jsonify(data)
 
 @app.route('/getItems', methods=['GET'])
@@ -148,7 +148,9 @@ def add_order():
     item_count = c.fetchone()[0]
     add_count = 0
     for item in request.form:  # item id and quantity
-        if int(item) <= item_count:
+        if item == "discount":
+            c.execute(f"UPDATE 'order' SET discount_percent = {int(request.form[item])} where order_id = {order_id}")
+        elif int(item) <= item_count:
             c.execute("INSERT INTO 'order_item' VALUES (?, ?, ?)",
                       (order_id, item, request.form[item]))
             add_count += 1
