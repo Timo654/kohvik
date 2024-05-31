@@ -4,6 +4,7 @@ using System;
 public class Order
 {
     public int ID;
+    public int Discount;
     public Item[] items = null;
     public GameObject orderObject = null;
 

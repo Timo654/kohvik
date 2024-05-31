@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 60}
-  m_SizeDelta: {x: 0, y: -120}
+  m_SizeDelta: {x: -50, y: -170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5669292514582978912
 CanvasRenderer:
@@ -144,8 +144,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Order X added, priced at Y \u20AC."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e9b55f58fdd5a0340833757a3e38d2aa, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 310a1affe348efd4fa0c076bfb98b869, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5f65c35e6a624084095d4adf5216506f, type: 2}
+  m_sharedMaterial: {fileID: -7732744451218934842, guid: 5f65c35e6a624084095d4adf5216506f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -169,15 +169,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -494,7 +494,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

@@ -33,8 +33,8 @@ public class ItemManager : MonoBehaviour
     void Start()
     {
         Instance = this;
-        messageBoxText = messageBox.transform.GetChild(0).Find("MessageText").GetComponent<TMP_Text>();
-        confirmBoxText = confirmBox.transform.GetChild(0).Find("ConfirmText").GetComponent<TMP_Text>();
+        if (messageBox != null) messageBoxText = messageBox.transform.GetChild(0).Find("MessageText").GetComponent<TMP_Text>();
+        if (confirmBox != null) confirmBoxText = confirmBox.transform.GetChild(0).Find("ConfirmText").GetComponent<TMP_Text>();
         OnResetCalled += ResetPrice;
         if (isMenu)
         {

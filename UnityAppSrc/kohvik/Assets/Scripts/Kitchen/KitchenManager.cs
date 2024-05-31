@@ -38,6 +38,7 @@ public class KitchenManager : MonoBehaviour
         else
         {
             string jsonResponse = www.downloadHandler.text;
+            Debug.Log(jsonResponse);
             orders = JsonUtility.FromJson<OrderList>("{\"Orders\":" + jsonResponse + "}");
             foreach (Order order in orders.Orders)
             {
@@ -64,9 +65,13 @@ public class KitchenManager : MonoBehaviour
             string jsonResponse = www.downloadHandler.text;
             ItemList items = JsonUtility.FromJson<ItemList>("{\"Items\":" + jsonResponse + "}");
             order.items = items.Items;
-            Debug.Log(order.ID);
-            
-            string orderText = "NR " + order.ID + ": ";
+            string orderText = "";
+            Debug.Log(order.Discount);
+            if (order.Discount > 0)
+            {
+                orderText += "(OMA) ";
+            }
+            orderText += "NR " + order.ID + ": ";
             foreach (Item item in order.items)
             {
                 orderText += item.Count + " " + item.Name + " ";

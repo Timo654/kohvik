@@ -34,7 +34,7 @@ def get_orders():
     for item in data:
         x = dict()
         x["ID"] = item[0]
-        x["DISCOUNT"] = item[1]
+        x["Discount"] = item[1]
         new_data.append(x)
     return new_data
 
@@ -49,7 +49,7 @@ def get_ready_orders():
     for item in data:
         x = dict()
         x["ID"] = item[0]
-        x["DISCOUNT"] = item[1]
+        x["Discount"] = item[1]
         new_data.append(x)
     return new_data
 
